@@ -2,11 +2,15 @@
 String Library Implementation
 */
 
-struct String {
+#include <stdlib.h>
+
+typedef struct String {
     int len;
     char* str;
-};
+} String;
 
-void main(void) {
-    
+String* create(char* str, int strlen) {
+    String* my_str = malloc(sizeof(String));
+    my_str->len = strlen;
+    my_str->str = str;
 };
