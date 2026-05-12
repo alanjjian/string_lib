@@ -10,6 +10,7 @@ In particular, we're trying to replicate the architecture that rust uses to make
 - ~~How do I turn this into a useable package for other programs to reference?~~
 - **How do I test my library in an automated way?**
   - ~~Let's use **Make**~~
-  - Let's figure out how to use **Make** in relation to VSCode
+- Study string implementation in Rust, let's try and replicate it? Why is Str and str required?
+
 
 
