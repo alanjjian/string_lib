@@ -4,32 +4,28 @@ String Library Implementation. It mirrors the way that strings are set up in Rus
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-#include "string.h"
+#include "dynamic_string.h"
 
-typedef struct String
+string *create_string(char *str)
 {
-    // Equivalent to the Rust String. It contains a length, capacity, and a pointer to a string on heap memory.
-    int len;
-    int capacity;
-    char *str;
-} String;
+    string *my_str = malloc(sizeof(string));
+    my_str->len = strlen(str);
+    printf("here's the length when making: %i\n", my_str->len);
+    my_str->str_slice = malloc(my_str->len);
+    memcpy(my_str->str_slice, str, my_str->len);
+    return my_str;
+};
 
-typedef struct string
-{
-    // Equivalent to the Rust &str. It contains a length, and a pointer to a string *slice* on heap memory.
-    int len;
-    char *str;
-} string;
-
-String *create(char *str)
+String *create_String(char *str)
 {
     // Returns a dynamic string with capacity and length equal to the STRLEN
     String *my_str = malloc(sizeof(String));
-    my_str->len = strlen(str);
-    my_str->str = malloc(my_str->len);
-    memcpy(my_str->str, str, my_str->len);
-    my_str->capacity = strlen;
+    string *str_slice = create_string(str);
+    my_str->len = str_slice->len;
+    my_str->capacity = str_slice->len;
+    my_str->str_slice = str_slice;
     return my_str;
 };
 
