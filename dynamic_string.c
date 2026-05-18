@@ -5,33 +5,66 @@ String Library Implementation. It mirrors the way that strings are set up in Rus
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "dynamic_string.h"
 
-string *create_string(char *str)
+string *create_string(char *str, int len)
 {
     string *my_str = malloc(sizeof(string));
-    my_str->len = strlen(str);
-    printf("here's the length when making: %i\n", my_str->len);
-    my_str->str_slice = malloc(my_str->len);
-    memcpy(my_str->str_slice, str, my_str->len);
+    my_str->len = len;
+    my_str->str = malloc(my_str->len);
+    memcpy(my_str->str, str, my_str->len);
     return my_str;
 };
 
-String *create_String(char *str)
+String *create_String(char *str, int len)
 {
     // Returns a dynamic string with capacity and length equal to the STRLEN
     String *my_str = malloc(sizeof(String));
-    string *str_slice = create_string(str);
-    my_str->len = str_slice->len;
-    my_str->capacity = str_slice->len;
-    my_str->str_slice = str_slice;
+    my_str->len = len;
+    my_str->capacity = my_str->len;
+    my_str->str = malloc(my_str->len);
+    memcpy(my_str->str, str, my_str->len);
     return my_str;
 };
 
-/*
-string* get_slice(String *str, int start, int finish) {
-    // Returns a dynamic string slice exclusive of end.
-    int
+string *slice_String(String *str, int start, int end)
+{
+
+    // Like calling &String in rust. Convert a String to a string
+    // TODO: Error checking
+    int len = end - start;
+    return create_string(&(str->str)[start], len);
+};
+
+string *get_slice(String *str)
+{
+    return create_string(str->str, str->len);
+};
+
+void append(String *Str, string *str)
+{
+
+    // Edits first string in place, appending str to the end of Str
+
+    Str->len = Str->len + str->len;
+    while (Str->len > Str->capacity)
+    {
+        Str->capacity *= 2;
+    };
+    memcpy(&(Str->str)[Str->len], str->str, str->len);
+};
+
+void print(string *str, ...)
+{
+    va_list args;
+    char *my_str = malloc(str->len);
+    char *null_terminator = "";
+    memcpy(my_str, str->str, str->len + 1);
+    memcpy(&my_str[str->len], null_terminator, 1); // Add null terminator to end of string
+    va_start(args, str);
+    vfprintf(stdout, my_str, args);
+    va_end(args);
+    free(my_str);
 }
-    */

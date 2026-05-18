@@ -10,11 +10,12 @@ Tests the functionality of the string library.
 
 int main(void)
 {
-    string *my_str = create_string("Hello, world!");
-    printf("My string length: %i\n", my_str->len);
-    printf("My string says: %s\n", my_str->str_slice);
-
-    String *my_Str = create_String("Hello, world!");
+    char *str = "Hello, World!";
+    String *my_Str = create_String(str, strlen(str));
     printf("My String length: %i\n", my_Str->len);
-    printf("My String says: %s\n", my_Str->str_slice->str_slice);
+    printf("My String says: %s\n", my_Str->str);
+
+    string *my_str = get_slice(my_Str);
+    printf("My string length: %i\n", my_str->len);
+    printf("My string says: %s\n", my_str->str);
 };
